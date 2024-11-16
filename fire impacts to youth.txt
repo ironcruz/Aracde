@@ -1,0 +1,15 @@
+var censusLayer = FeatureSetByName($map,"Tract", ['TOTPOP_CY'], false)
+var ej = FeatureSetByName($map,"EJSCREEN Indexes 2020 Public - Superfund Proximity",['UNDER5'],false)
+var ejData = Intersects($feature, censusLayer)
+
+var fireBuffOne = Buffer($feature, 5, 'miles')
+var ejInt = Intersects(fireBuffOne, ej)
+var totals = 0
+function addKids(){
+    for (var r in ejInt){
+        Console(r['UNDER5'])
+        totals = totals + r['UNDER5']
+    }
+    return totals
+}
+IIf(Count(ejInt) > 1, addKids(), "NO additional kids")

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+	<title>Map components AMD template</title>
+	<link rel="icon" href="data:;base64,=" />
+
+	<style>
+		html,
+		body {
+			background-color: var(--calcite-ui-foreground-2);
+			padding: 0;
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+		}
+		.my-button {
+			margin: 0;
+			position: absolute;
+				left: 100px;
+			top: 10px;
+		}
+	</style>
+	
+	<script type="module" src="https://js.arcgis.com/calcite-components/2.6.0/calcite.esm.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.6.0/calcite.css" />
+	
+	<!-- Load the ArcGIS Maps SDK for JavaScript -->
+	<link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/dark/main.css" />
+	<script src="https://js.arcgis.com/next/"></script>
+
+	<!-- Load the Map Components -->
+	<script type="module" src="https://jsdev.arcgis.com/map-components/next/arcgis-map-components.esm.js"></script>
+	<script>
+		async function load() {
+			const sketch = document.querySelector("arcgis-sketch");
+
+			sketch.addEventListener("arcgisReady", () => {
+				console.log("sketch ready");
+			});
+
+			sketch.addEventListener("arcgisCreate", (e) => {
+				console.log("sketch create", e);
+			});
+
+			sketch.addEventListener("arcgisUpdate", (e) => {
+				console.log("sketch update", e);
+			});
+		}
+
+        load();
+
+	</script>
+</head>
+
+<body>
+<arcgis-map id="mapElem" item-id="d5dda743788a4b0688fe48f43ae7beb9">
+	<arcgis-sketch position="top-right"></arcgis-sketch>
+</arcgis-map>
+</body>
+
+</html>

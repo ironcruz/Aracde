@@ -1,0 +1,31 @@
+var fires = FeatureSetByPortalItem(Portal(''agol or enterprise url''), 'item_id', 0, )
+var tracts = FeatureSetByPortalItem(Portal('agol or enterprise url'), 'item_id', 0)
+var dic  = {
+    'fields':[
+        {'name':'IncidentName', 'type':'esriFieldTypeString'}, 
+        {'name':'OriginState', 'type':'esriFieldTypeString'},
+        {'name':'affectedTract', 'type':'esriFieldTypeString'}
+        ], 
+        geometryType:'esriGeometryPoint', 
+        features:[]
+}
+var i = 0
+for( var fire in fires){
+    var firestate = split(fire.POOState, '-')[1]
+    var filtered_tracts = filter(tracts, 'STATE = @firestate')
+    var fips = first(intersects(filtered_tracts, fire)).FIPS
+    
+    
+    
+    
+    dic['features'][i++]={
+        'attributes':{
+            'IncidentName':fire.IncidentName, 
+            'OriginState':firestate,
+            'affectedTract':fips
+        }, 
+        'geometry':geometry(fire)
+    }
+}
+
+return featureset(text(dic))

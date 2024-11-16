@@ -1,0 +1,53 @@
+var portal = Portal("agol or enterprise url");
+var polyfs = FeatureSetByPortalItem(
+    portal,
+    "item_id",
+    0,
+    ["*"],
+    false
+);
+
+var tablefs = FeatureSetByPortalItem(
+    portal,
+    "item_id",
+    6,
+    ["*"],
+    false
+);
+
+// Create empty features array and feat object
+var features = [];
+var feat;
+
+// Populate Feature Array
+for (var t in tablefs) {
+    var tableID = t["FeatureID"]
+    for (var p in Filter(polyfs, "HydroID = "+tableID)){
+        feat = {
+            attributes: {
+                FeatureID: tableID,
+                Name: p["DPS_Region"],
+                ModelID: t["ModelID"],
+                AddressCount: t["AddressCount"],
+                MAX_TSTime: t["MAX_TSTime"],
+            }
+        }
+
+    Push(features, feat)
+    }
+}
+
+var joinedDict = {
+    fields: [
+        { name: "FeatureID", type: "esriFieldTypeString" },
+        { name: "Name", type: "esriFieldTypeString" },
+        { name: "ModelID", type: "esriFieldTypeInteger" },
+        { name: "AddressCount", type: "esriFieldTypeInteger" },
+        { name: "MAX_TSTime", type: "esriFieldTypeString" },
+    ],
+    'geometryType': '',
+    'features':features
+};
+
+// Return dictionary cast as a feature set
+return FeatureSet(Text(joinedDict));
